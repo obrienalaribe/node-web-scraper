@@ -6,7 +6,7 @@ var app     = express();
 
 app.get('/scrape', function(req, res){
   // Let's scrape Anchorman 2
-  url = 'http://www.imdb.com/title/tt1229340/';
+  url = 'https://www.luu.org.uk/giag/events/';
 
   request(url, function(error, response, html){
     if(!error){
@@ -15,26 +15,17 @@ app.get('/scrape', function(req, res){
       var title, release, rating;
       var json = { title : "", release : "", rating : ""};
 
-      $('.title_wrapper').filter(function(){
-        var data = $(this);
-        title = data.children().first().text().trim();
-        release = data.children().last().children().last().text().trim();
-
-        json.title = title;
-        json.release = release;
-      })
-
-      $('.ratingValue').filter(function(){
-        var data = $(this);
-        rating = data.text().trim();
-
-        json.rating = rating;
-      })
+      var events = [];
+      $('.event_item dl').each(function(i, element){
+             events[i] = $(this).text();
+      });
     }
 
-    fs.writeFile('output.json', JSON.stringify(json, null, 4), function(err){
-      console.log('File successfully written! - Check your project directory for the output.json file');
-    })
+    console.log(events);
+
+    // fs.writeFile('output.json', JSON.stringify(json, null, 4), function(err){
+    //   console.log('File successfully written! - Check your project directory for the output.json file');
+    // })
 
     res.send('Check your console!')
   })
