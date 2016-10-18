@@ -16,12 +16,15 @@ app.get('/scrape', function(req, res){
       var json = { title : "", release : "", rating : ""};
 
       var events = [];
-      $('.event_item dl').each(function(i, element){
+      $('.event_item dl dd').each(function(i, element){
              events[i] = $(this).text();
+            //  console.log($(this).text().length);
+             return $(this);
+      }).each(function(i, element){
+             console.log($(this).siblings('dl'));
       });
     }
 
-    console.log(events);
 
     // fs.writeFile('output.json', JSON.stringify(json, null, 4), function(err){
     //   console.log('File successfully written! - Check your project directory for the output.json file');
